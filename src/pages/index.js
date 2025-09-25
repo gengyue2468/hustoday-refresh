@@ -1,115 +1,179 @@
-import Image from "next/image";
-import { Geist, Geist_Mono } from "next/font/google";
+import Layout from "@/components/Layout";
+import { PlusIcon, SettingsIcon } from "lucide-react";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
-export default function Home() {
-  return (
+export default function Main() {
+  const CalendarTemp = ({ num, note, active, today }) => (
     <div
-      className={`${geistSans.className} ${geistMono.className} font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20`}
+      className={`flex flex-col space-y-1 justify-center items-center rounded-full ${
+        active && "text-orange-600"
+      }`}
     >
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/pages/index.js
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+      <span className="opacity-75 text-xs">{note}</span>
+      <span className="font-semibold text-lg">{num}</span>
+      <span
+        className={
+          today
+            ? "bg-orange-600 rounded-full w-4 h-1"
+            : "bg-transparent w-4 h-1"
+        }
+      />
     </div>
+  );
+
+  const timeTable = [
+    "08:00~08:45",
+    "08:55~09:40",
+    "10:10~10:55",
+    "11:05~11:50",
+    "14:30~05:15",
+    "15:20~16:05",
+    "16:25~17:10",
+    "17:15~18:00",
+    "19:00~19:45",
+    "19:50~20:35",
+    "20:45~21:30",
+    "21:35~22:20",
+  ];
+
+  const courseList = [
+    {
+      title: "微积分(B)上",
+      location: "西十二楼 N104",
+      teacher: "周少波",
+      color: "yellow",
+    },
+    {
+      title: "综合英语（一）",
+      location: "西五楼 207",
+      teacher: "陈虹",
+      color: "green",
+    },
+    {
+      title: "C语言程序设计",
+      location: "西十二楼 S303",
+      teacher: "胡龙",
+      color: "rose",
+    },
+    {
+      title: "网易云音乐",
+      location: "沁苑学生公寓",
+      teacher: "网易",
+      color: "cyan",
+    },
+    {
+      title: "植物大战僵尸2",
+      location: "沁苑学生公寓",
+      teacher: "拓维游戏",
+      color: "purple",
+    },
+    {
+      title: "抖音极速版",
+      location: "沁苑学生公寓",
+      teacher: "字节跳动",
+      color: "blue",
+    },
+  ];
+
+  const CourseCard = ({ title, location, teacher, color }) => {
+    const noData = !title || !location || !teacher;
+    const colorMap = {
+      red: "bg-red-600",
+      blue: "bg-blue-600",
+      green: "bg-green-600",
+      yellow: "bg-yellow-600",
+      purple: "bg-purple-600",
+      rose: "bg-rose-600",
+      cyan: "bg-cyan-600",
+    };
+
+    const colorStyle = colorMap[color] || "bg-neutral-500";
+    return (
+      <div
+        className={`${colorStyle} text-white rounded-3xl px-6 py-4 h-48 ${
+          noData ? "" : "w-full"
+        }`}
+      >
+        <div className="flex flex-col justify-between h-full">
+          <div>
+            <h1 className="font-semibold text-xl">{title}</h1>
+            <h2 className="font-medium text-xl opacity-50">{teacher}</h2>
+          </div>
+          <h2 className="font-semibold text-lg">{location}</h2>
+        </div>
+      </div>
+    );
+  };
+
+  return (
+    <Layout title="Hustday Refresh">
+      <div className="flex flex-row items-center justify-between">
+        <div className="flex flex-col space-y-1">
+          <h1 className="font-semibold text-sm opacity-75">
+            2025 年 9 月 25 日
+          </h1>
+          <div className="flex flex-row space-x-2">
+            <h1 className="font-semibold">第 4 周</h1>
+            <button className="text-orange-600 font-semibold">回到今天</button>
+          </div>
+        </div>
+        <div className="flex flex-row space-x-6 items-center">
+          <div className="flex flex-row space-x-4">
+            <button>
+              <SettingsIcon size={20} />
+            </button>
+            <button>
+              <PlusIcon size={20} />
+            </button>
+          </div>
+          <button className="bg-neutral-100 dark:bg-neutral-900 rounded-full px-6 py-2 font-semibold">
+            周视图
+          </button>
+        </div>
+      </div>
+
+      <div className="mt-4 rounded-full px-6 py-4 -translate-x-4 w-[calc(100%+2rem)] bg-neutral-100 dark:bg-neutral-900">
+        <div className="flex flex-row items-center justify-between">
+          <h1 className="font-semibold">
+            <span className="text-orange-600">9</span> 月
+          </h1>
+          <div className="flex flex-row space-x-4">
+            <CalendarTemp num="22" note="一" />
+            <CalendarTemp num="23" note="二" />
+            <CalendarTemp num="24" note="三" active={true} />
+            <CalendarTemp num="25" note="四" today={true} />
+            <CalendarTemp num="26" note="五" />
+            <CalendarTemp num="27" note="六" />
+            <CalendarTemp num="28" note="日" />
+          </div>
+        </div>
+      </div>
+
+      <div className="mt-12 flex flex-row justify-between space-x-12">
+        <div className="flex flex-col space-y-0">
+          {timeTable.map((time, index) => (
+            <div className="relative flex justify-center items-center w-18 h-25">
+              <h1 className="font-semibold text-5xl opacity-10 z-0">
+                {index + 1}
+              </h1>
+              <h1 className="font-medium absolute inset-x-0 top-1/2 text-xs text-neutral-600 dark:text-neutral-400">
+                {time}
+              </h1>
+            </div>
+          ))}
+        </div>
+        <div className="flex flex-col space-y-4 flex-1">
+          {courseList.map((course) => {
+            return (
+              <CourseCard
+                title={course.title}
+                location={course.location}
+                teacher={course.teacher}
+                color={course.color}
+              />
+            );
+          })}
+        </div>
+      </div>
+    </Layout>
   );
 }
