@@ -151,7 +151,10 @@ export default function Main() {
       <div className="mt-12 flex flex-row justify-between space-x-12">
         <div className="flex flex-col space-y-0">
           {timeTable.map((time, index) => (
-            <div className="relative flex justify-center items-center w-18 h-25">
+            <div
+              key={index}
+              className="relative flex justify-center items-center w-18 h-25"
+            >
               <h1 className="font-semibold text-5xl opacity-10 z-0">
                 {index + 1}
               </h1>
@@ -165,6 +168,7 @@ export default function Main() {
           {courseList.map((course) => {
             return (
               <CourseCard
+                key={course.title}
                 title={course.title}
                 location={course.location}
                 teacher={course.teacher}

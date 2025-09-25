@@ -89,6 +89,7 @@ export default function Navbar() {
                 : router.asPath.includes(item.href);
             return (
               <NavButton
+                key={item.name}
                 onClick={() => router.push(item.href)}
                 className={`flex flex-col justify-center items-center space-y-1 ${
                   active ? `*:text-orange-600` : "opacity-75"

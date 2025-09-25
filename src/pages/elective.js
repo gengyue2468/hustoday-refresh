@@ -103,7 +103,9 @@ export default function Elective() {
         <h1 className="font-semibold text-xl opacity-50">{teacher}等</h1>
 
         <div className="my-8">
-          <h1 className="font-semibold text-xl opacity-50">课程类别：{category}</h1>
+          <h1 className="font-semibold text-xl opacity-50">
+            课程类别：{category}
+          </h1>
           <h1 className="font-semibold text-xl opacity-50">
             {commentCount} 条评论，{searchCount} 人搜索过
           </h1>
@@ -128,7 +130,7 @@ export default function Elective() {
 
         <div className="my-4 grid grid-cols-2 grid-rows-2 gap-4">
           {category.map((cate) => (
-            <CategoryCard name={cate.name} icon={cate.icon} />
+            <CategoryCard key={cate.name} name={cate.name} icon={cate.icon} />
           ))}
         </div>
 
@@ -137,6 +139,7 @@ export default function Elective() {
         <div className="my-4 flex flex-col space-y-4">
           {hotCourse.map((course) => (
             <CourseCard
+              key={course.name}
               name={course.name}
               teacher={course.teacher}
               category={course.category}
