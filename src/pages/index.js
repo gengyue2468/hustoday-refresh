@@ -9,7 +9,7 @@ export default function Main() {
       }`}
     >
       <span className="opacity-75 text-xs">{note}</span>
-      <span className="font-semibold text-lg">{num}</span>
+      <span className="font-semibold text-base">{num}</span>
       <span
         className={
           today
@@ -106,12 +106,15 @@ export default function Main() {
 
   return (
     <Layout title="Hustday Refresh">
+      <div className="text-xs opacity-50 mb-4">
+        现在为静态网页，大部分按钮均不可用，仅供调试
+      </div>
       <div className="flex flex-row items-center justify-between">
         <div className="flex flex-col space-y-1">
           <h1 className="font-semibold text-sm opacity-75">
             2025 年 9 月 25 日
           </h1>
-          <div className="flex flex-row space-x-2">
+          <div className="flex flex-row space-x-2 text-sm">
             <h1 className="font-semibold">第 4 周</h1>
             <button className="text-orange-600 font-semibold">回到今天</button>
           </div>
@@ -125,14 +128,14 @@ export default function Main() {
               <PlusIcon size={20} />
             </button>
           </div>
-          <button className="bg-neutral-100 dark:bg-neutral-900 rounded-full px-6 py-2 font-semibold">
+          <button className="bg-neutral-100 dark:bg-neutral-900 rounded-full px-4 py-2 font-semibold">
             周视图
           </button>
         </div>
       </div>
 
       <div className="mt-4 rounded-full px-6 py-4 -translate-x-4 w-[calc(100%+2rem)] bg-neutral-100 dark:bg-neutral-900">
-        <div className="flex flex-row items-center justify-between">
+        <div className="text-sm flex flex-row items-center justify-between">
           <h1 className="font-semibold">
             <span className="text-orange-600">9</span> 月
           </h1>

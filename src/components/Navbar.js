@@ -79,7 +79,7 @@ export default function Navbar() {
       <div className="flex flex-row space-x-4 items-center max-w-xl mx-auto justify-center">
         <div
           className={`transition-all duration-500 p-2 flex flex-row ${
-            !displayDetail ? "space-x-2" : "space-x-0"
+            !displayDetail ? "space-x-1" : "space-x-0"
           } ${glassStyle}`}
         >
           {navItems.map((item) => {
@@ -93,7 +93,7 @@ export default function Navbar() {
                 onClick={() => router.push(item.href)}
                 className={`flex flex-col justify-center items-center space-y-1 ${
                   active ? `*:text-orange-600` : "opacity-75"
-                } ${!displayDetail ? "px-2" : "px-6"}`}
+                } ${!displayDetail ? "px-2" : "px-4"}`}
               >
                 <span>{item.icon}</span>
                 {displayDetail && (
