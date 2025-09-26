@@ -1,40 +1,42 @@
+/** @type {import('next').NextConfig} */
 const withPWA = require('next-pwa')({
   dest: 'public',
   register: true,
   skipWaiting: true,
+  // 在开发环境启用PWA（可选）
   disable: process.env.NODE_ENV === 'development',
+  // 自定义Service Worker
+  // runtimeCaching配置可以根据需要调整
   runtimeCaching: [
     {
-      source: ({ request }) => request.destination === 'script' || 
-                                request.destination === 'style' || 
-                                request.destination === 'image',
-      destination: 'staticResource',
+      urlPattern: /^https?:\/\/fonts\.googleapis\.com\/.*/i,
+      handler: 'CacheFirst',
       options: {
-        cacheName: 'static-resources',
-        expiration: {
-          maxEntries: 30, // 最多缓存30个资源
-          maxAgeSeconds: 30 * 24 * 60 * 60, // 缓存30天
-        },
-      },
-    },
-    {
-      source: ({ request }) => request.url.includes('/api/'),
-      destination: 'api',
-      options: {
-        cacheName: 'api-data',
+        cacheName: 'google-fonts-cache',
         expiration: {
           maxEntries: 10,
-          maxAgeSeconds: 60 * 60, // 缓存1小时
-        },
-      },
+          maxAgeSeconds: 60 * 60 * 24 * 365 // 1 year
+        }
+      }
     },
-  ],
+    {
+      urlPattern: /^https?:\/\/fonts\.gstatic\.com\/.*/i,
+      handler: 'CacheFirst',
+      options: {
+        cacheName: 'gstatic-fonts-cache',
+        expiration: {
+          maxEntries: 10,
+          maxAgeSeconds: 60 * 60 * 24 * 365 // 1 year
+        }
+      }
+    }
+  ]
 });
 
-/** @type {import('next').NextConfig} */
-const nextConfig = {
+const nextConfig = withPWA({
   reactStrictMode: true,
-};
+});
 
-module.exports = withPWA(nextConfig);
+module.exports = nextConfig;
+
 
