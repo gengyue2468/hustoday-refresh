@@ -211,7 +211,14 @@ export default function Main() {
           </h1>
           <div className="flex flex-row space-x-2 text-sm">
             <h1 className="font-semibold">第 4 周</h1>
-            <button className="text-orange-600 font-semibold">回到今天</button>
+            {currentDay !== today && (
+              <button
+                className="text-orange-600 font-semibold"
+                onClick={() => setCurrentDay(today)}
+              >
+                回到今天
+              </button>
+            )}
           </div>
         </div>
         <div className="flex flex-row space-x-6 items-center">
