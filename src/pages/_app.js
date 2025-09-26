@@ -3,7 +3,7 @@ import "@/styles/globals.css";
 import "@fontsource-variable/inter";
 import { ThemeProvider } from "next-themes";
 import { useEffect, useState } from "react";
-import * as WorkboxWindow from 'workbox-window';
+import * as WorkboxWindow from "workbox-window";
 
 export default function App({ Component, pageProps }) {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -26,18 +26,20 @@ export default function App({ Component, pageProps }) {
   }, []);
 
   useEffect(() => {
-    if (process.env.NODE_ENV !== "production") {
-      return;
+    if (typeof window !== "undefined") {
+      if ("serviceWorker" in navigator) {
+        const wb = new WorkboxWindow.Workbox("/sw.js");
+
+        window.addEventListener("beforeinstallprompt", (e) => {
+          e.preventDefault();
+          setDeferredPrompt(e);
+        });
+
+        wb.register().catch((err) => {
+          console.error("Service Worker注册失败:", err);
+        });
+      }
     }
-
-    const wb = new WorkboxWindow.Workbox("/sw.js");
-
-    window.addEventListener("beforeinstallprompt", (e) => {
-      e.preventDefault();
-      setDeferredPrompt(e);
-    });
-
-    wb.register();
   }, []);
 
   const handleInstallPwa = async () => {
@@ -45,7 +47,7 @@ export default function App({ Component, pageProps }) {
       deferredPrompt.prompt();
       const result = await deferredPrompt.userChoice;
       if (result.outcome === "accepted") {
-        console.log("User accepted the install prompt");
+        console.log("用户接受了安装提示");
       }
       setDeferredPrompt(null);
     }
