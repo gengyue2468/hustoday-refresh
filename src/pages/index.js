@@ -115,11 +115,11 @@ export default function Main() {
     <Layout title="Hustoday Refresh">
       <div className="flex flex-row items-center justify-between">
         <div className="flex flex-col space-y-1">
-          <h1 className="font-semibold text-sm opacity-75">
+          <h1 className="font-semibold text-xs opacity-75">
             {dayjs().format("YYYY 年 MM 月 DD 日")}
           </h1>
-          <div className="mt-1 flex flex-row space-x-2 items-center text-sm">
-            <div className="rounded-3xl p-2 -translate-x-4 bg-neutral-100 dark:bg-neutral-900 flex flex-row space-x-2">
+          <div className="mt-1 flex flex-row space-x-2 items-center text-xs">
+            <div className="rounded-3xl p-2 -translate-x-4 bg-neutral-100 dark:bg-neutral-900 flex flex-row space-x-0.5">
               <button
                 onClick={handlePrevWeek}
                 disabled={currentWeek === 1}
@@ -155,15 +155,15 @@ export default function Main() {
                   setCurrentDay(todayWeekDay);
                 }}
               >
-                <span>回到今天</span>
+                <span>今天</span>
                 <ChevronRightIcon size={16} />
               </button>
             )}
           </div>
         </div>
 
-        <div className="flex flex-row space-x-6 items-center">
-          <div className="flex flex-row space-x-4">
+        <div className="flex flex-row space-x-3 items-center">
+          <div className="flex flex-row space-x-2">
             <OpenDrawer
               title="课表设置"
               desc="管理您的 Hustoday 课表"
