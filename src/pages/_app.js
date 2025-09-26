@@ -3,6 +3,7 @@ import "@/styles/globals.css";
 import "@fontsource-variable/inter";
 import { ThemeProvider } from "next-themes";
 import { useEffect, useState } from "react";
+import * as WorkboxWindow from 'workbox-window';
 
 export default function App({ Component, pageProps }) {
   const [isLoaded, setIsLoaded] = useState(false);
