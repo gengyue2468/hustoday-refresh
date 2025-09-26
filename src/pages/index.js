@@ -1,10 +1,47 @@
 import Layout from "@/components/Layout";
-import { PlusIcon, SettingsIcon } from "lucide-react";
-import { useState } from "react";
+import ActionCard from "@/components/ui/ActionCard";
+import OpenDrawer from "@/components/ui/Drawer";
+import {
+  CheckIcon,
+  ChevronRightIcon,
+  PlusIcon,
+  SettingsIcon,
+} from "lucide-react";
+import { useState, useRef, useEffect } from "react";
 
 export default function Main() {
   const [currentDay, setCurrentDay] = useState(5);
   const [today, setToday] = useState(5);
+  const [showType, setShowType] = useState("day");
+
+  const topScrollRef = useRef(null);
+  const bottomScrollRef = useRef(null);
+
+  useEffect(() => {
+    if (showType !== "week") return;
+
+    const topScroll = topScrollRef.current;
+    const bottomScroll = bottomScrollRef.current;
+
+    if (!topScroll || !bottomScroll) return;
+
+    const handleTopScroll = () => {
+      bottomScroll.scrollLeft = topScroll.scrollLeft;
+    };
+
+    const handleBottomScroll = () => {
+      topScroll.scrollLeft = bottomScroll.scrollLeft;
+    };
+
+    topScroll.addEventListener("scroll", handleTopScroll);
+    bottomScroll.addEventListener("scroll", handleBottomScroll);
+
+    return () => {
+      topScroll.removeEventListener("scroll", handleTopScroll);
+      bottomScroll.removeEventListener("scroll", handleBottomScroll);
+    };
+  }, [showType]);
+
   const CalendarTemp = ({ num, note, ...props }) => {
     let chineseNote;
     switch (note) {
@@ -30,13 +67,13 @@ export default function Main() {
         chineseNote = "日";
         break;
     }
-    const active = note === currentDay;
+    const active = showType === "day" && note === currentDay;
     const isToday = note === today;
     return (
       <div
-        className={`cursor-pointer flex flex-col space-y-1 justify-center items-center rounded-full ${
-          active && "text-orange-600"
-        }`}
+        className={`transition-all duration-500 cursor-pointer flex flex-col space-y-1 justify-center items-center rounded-full ${
+          showType === "day" ? "w-6" : "w-20"
+        }  ${active && "text-orange-600"}`}
         {...props}
       >
         <span className="opacity-75 text-xs">{chineseNote}</span>
@@ -163,7 +200,7 @@ export default function Main() {
         color: "indigo",
       },
     ],
-    [],
+    [{}],
   ];
 
   const CourseCard = ({ title, location, teacher, color }) => {
@@ -182,18 +219,30 @@ export default function Main() {
     };
 
     const colorStyle = colorMap[color] || "bg-neutral-500";
+    const headingStyle =
+      showType === "day" ? "font-semibold text-lg" : "font-semibold text-xs";
+    const subHeadingStyle =
+      showType === "day"
+        ? "font-semibold text-lg opacity-50"
+        : "font-semibold text-xs opacity-50";
+    const locationStyle =
+      showType === "day" ? "font-semibold text-base" : "font-semibold text-xs";
     return (
       <div
-        className={`${colorStyle} text-white rounded-3xl px-6 py-4 h-46 ${
-          noData ? "bg-white dark:bg-black" : "w-full"
+        className={`${colorStyle} transition-all duration-500 text-white  ${
+          noData ? "bg-white dark:bg-black" : ""
+        } ${
+          showType === "week"
+            ? "w-20 px-2 py-2.5 h-46 rounded-xl"
+            : "rounded-3xl w-full h-46 px-6 py-4"
         }`}
       >
         <div className="flex flex-col justify-between h-full">
           <div>
-            <h1 className="font-semibold text-lg">{title}</h1>
-            <h2 className="font-medium text-lg opacity-50">{teacher}</h2>
+            <h1 className={headingStyle}>{title}</h1>
+            <h2 className={subHeadingStyle}>{teacher}</h2>
           </div>
-          <h2 className="font-semibold text-base">{location}</h2>
+          <h2 className={locationStyle}>{location}</h2>
         </div>
       </div>
     );
@@ -209,39 +258,104 @@ export default function Main() {
           <h1 className="font-semibold text-sm opacity-75">
             2025 年 9 月 25 日
           </h1>
-          <div className="flex flex-row space-x-2 text-sm">
-            <h1 className="font-semibold">第 4 周</h1>
-            {currentDay !== today && (
+          <div className="flex flex-row space-x-2 items-center text-sm">
+            <h1 className="font-semibold">
+              第 <span className="text-orange-600 ml-0.5 mr-0.5">4</span> 周
+            </h1>
+            {showType === "day" && currentDay !== today && (
               <button
-                className="text-orange-600 font-semibold"
+                className="text-orange-600 font-semibold flex flex-row items-center space-x-0.5"
                 onClick={() => setCurrentDay(today)}
               >
-                回到今天
+                <span>回到今天</span>
+                <ChevronRightIcon size={16} />
               </button>
             )}
           </div>
         </div>
         <div className="flex flex-row space-x-6 items-center">
           <div className="flex flex-row space-x-4">
-            <button>
+            <OpenDrawer
+              title="课表设置"
+              desc="管理您的 Hustoday 课表"
+              content={
+                <div className="flex flex-col space-y-2">
+                  <h1 className="font-semibold text-lg">我的课表</h1>
+
+                  <div className="grid grid-rows-1 grid-cols-2 gap-4">
+                    <CourseCard
+                      title="2025-2026 （秋）"
+                      teacher="待定"
+                      location={<CheckIcon size={24} />}
+                      color="blue"
+                    />
+                    <CourseCard
+                      title="2025-2026 （春）"
+                      teacher="待定"
+                      location={<CheckIcon size={0} />}
+                      color="red"
+                    />
+                  </div>
+
+                  <h1 className="font-semibold text-lg mt-4">通用</h1>
+                  <div className="flex flex-col space-y-2">
+                    <ActionCard title="网安时间" />
+                    <ActionCard title="切换令时" />
+                    <ActionCard title="是否展示非本周课程" />
+                    <ActionCard title="课程表水平线" />
+                  </div>
+                </div>
+              }
+            >
               <SettingsIcon size={20} />
-            </button>
-            <button>
+            </OpenDrawer>
+
+            <OpenDrawer
+              title="导入课表"
+              desc="导入新课表至 Hustoday"
+              content={
+                <div className="flex flex-col space-y-2">
+                  <ActionCard title="一键导入课表" />
+                  <ActionCard title="一键导入研究生课表" />
+                  <ActionCard title="一键导入劳动课程" />
+                  <ActionCard title="一键导入物理课表" />
+                  <ActionCard title="一键导入考试" />
+                  <ActionCard title="自定义添加单个课程" />
+                </div>
+              }
+            >
               <PlusIcon size={20} />
-            </button>
+            </OpenDrawer>
           </div>
-          <button className="bg-neutral-100 dark:bg-neutral-900 rounded-full px-4 py-2 font-semibold">
-            周视图
+          <button
+            onClick={() => setShowType(showType === "day" ? "week" : "day")}
+            className="bg-neutral-100 dark:bg-neutral-900 rounded-full px-4 py-2 font-semibold w-20"
+          >
+            {showType === "day" ? "周视图" : "日程"}
           </button>
         </div>
       </div>
 
-      <div className="mt-4 rounded-full px-6 py-4 -translate-x-4 w-[calc(100%+2rem)] bg-neutral-100 dark:bg-neutral-900">
-        <div className="text-sm flex flex-row items-center justify-between">
-          <h1 className="font-semibold">
-            <span className="text-orange-600">9</span> 月
-          </h1>
-          <div className="flex flex-row space-x-4">
+      <div className="sticky top-4 mt-4 rounded-3xl px-6 py-4 -translate-x-4 w-[calc(100%+2rem)] bg-neutral-100/50 dark:bg-neutral-900/50 backdrop-blur-lg z-10">
+        <div
+          ref={topScrollRef}
+          className={`text-sm flex flex-row ${
+            showType === "day" ? "space-x-8" : "space-x-"
+          } items-center justify-between flex-nowrap overflow-x-scroll`}
+        >
+          <div>
+            <h1
+              className={`font-semibold ${showType === "day" ? "w-8" : "w-10"}`}
+            >
+              <span className="text-orange-600">9</span> <span>月</span>
+            </h1>
+          </div>
+
+          <div
+            className={`flex flex-row ${
+              showType === "day" ? "space-x-4" : "space-x-2"
+            } `}
+          >
             {[1, 2, 3, 4, 5, 6, 7].map((cal, index) => (
               <CalendarTemp
                 key={index}
@@ -254,35 +368,69 @@ export default function Main() {
         </div>
       </div>
 
-      <div className="mt-12 flex flex-row justify-between space-x-12">
+      <div className="mt-12 flex flex-row justify-between space-x-8">
         <div className="flex flex-col space-y-0">
-          {timeTable.map((time, index) => (
-            <div
-              key={index}
-              className="relative flex justify-center items-center w-12 h-25"
-            >
-              <h1 className="font-semibold text-5xl opacity-10 z-0">
-                {index + 1}
-              </h1>
-              <div className="absolute w-12 flex justify-center items-center">
-                <h1 className="font-medium text-xs text-neutral-600 dark:text-neutral-400">
-                  {time}
+          {timeTable.map((time, index) => {
+            const simplifiedTimeData = time.split("~");
+            return (
+              <div
+                key={index}
+                className={`relative flex justify-center items-center ${
+                  showType === "day" ? "w-12" : "w-6"
+                } h-25 transition-all duration-500`}
+              >
+                <h1 className="font-semibold text-5xl opacity-20 z-0 w-12">
+                  {index + 1}
                 </h1>
+                <div className="absolute w-12 flex justify-center items-center">
+                  <h1 className="font-medium text-xs text-neutral-600 dark:text-neutral-400">
+                    {showType === "day" ? (
+                      time
+                    ) : (
+                      <span className="text-center flex flex-col space-y-1 justify-center items-center">
+                        {simplifiedTimeData[0]} {simplifiedTimeData[1]}
+                      </span>
+                    )}
+                  </h1>
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
-        <div className="flex flex-col space-y-4 flex-1">
-          {courseList[currentDay - 1]?.map((course, index) => (
-            <CourseCard
-              key={index}
-              title={course.title}
-              location={course.location}
-              teacher={course.teacher}
-              color={course.color}
-            />
-          ))}
-        </div>
+        {showType === "day" && (
+          <div className="flex flex-col space-y-4 flex-1">
+            {courseList[currentDay - 1]?.map((course, index) => (
+              <CourseCard
+                key={index}
+                title={course.title}
+                location={course.location}
+                teacher={course.teacher}
+                color={course.color}
+              />
+            ))}
+          </div>
+        )}
+
+        {showType === "week" && (
+          <div
+            ref={bottomScrollRef}
+            className="flex flex-row space-x-2 flex-nowrap overflow-x-scroll"
+          >
+            {courseList.map((course, index) => (
+              <div className="flex flex-col space-y-4 flex-1" key={index}>
+                {course?.map((course, index) => (
+                  <CourseCard
+                    key={index}
+                    title={course.title}
+                    location={course.location}
+                    teacher={course.teacher}
+                    color={course.color}
+                  />
+                ))}
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </Layout>
   );
