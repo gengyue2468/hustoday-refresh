@@ -1,4 +1,5 @@
 import { ChevronRightIcon } from "lucide-react";
+import { NormalHeading } from "./Typography";
 
 const ActionCard = ({ title, desc, ...props }) => {
   return (
@@ -8,11 +9,11 @@ const ActionCard = ({ title, desc, ...props }) => {
     >
       <div className="flex flex-row items-center justify-between space-x-4 w-full">
         <div>
-          <h1 className="font-semibold text-lg">{title}</h1>
-          <h2 className="font-medium text-lg opacity-50">{desc}</h2>
+          <NormalHeading>{title}</NormalHeading>
+          <NormalHeading className="opacity-50">{desc}</NormalHeading>
         </div>
         <div>
-          <ChevronRightIcon size={24} />
+          <ChevronRightIcon size={28} />
         </div>
       </div>
     </div>

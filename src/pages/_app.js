@@ -9,6 +9,7 @@ export default function App({ Component, pageProps }) {
   useEffect(() => {
     setIsLoaded(!isLoaded);
   }, []);
+  
   return (
     <ThemeProvider attribute="class">
       {isLoaded && <Component {...pageProps} />}

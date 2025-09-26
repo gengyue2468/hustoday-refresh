@@ -1,6 +1,7 @@
 import Layout from "@/components/Layout";
 import ActionCard from "@/components/ui/ActionCard";
 import OpenDrawer from "@/components/ui/Drawer";
+import { NormalHeading } from "@/components/ui/Typography";
 import {
   CheckIcon,
   ChevronRightIcon,
@@ -209,11 +210,11 @@ export default function Main() {
       red: "bg-red-600",
       blue: "bg-blue-600",
       sky: "bg-sky-600",
-      indigo: "bg-indigo-600",
-      green: "bg-green-600",
-      yellow: "bg-yellow-600",
+      indigo: "bg-indigo-400",
+      green: "bg-green-400",
+      yellow: "bg-yellow-400",
       purple: "bg-purple-600",
-      rose: "bg-rose-600",
+      rose: "bg-rose-400",
       pink: "bg-pink-600",
       cyan: "bg-cyan-600",
     };
@@ -229,7 +230,7 @@ export default function Main() {
       showType === "day" ? "font-semibold text-base" : "font-semibold text-xs";
     return (
       <div
-        className={`${colorStyle} transition-all duration-500 text-white  ${
+        className={`box-border ${colorStyle} transition-all duration-500 text-white  ${
           noData ? "bg-white dark:bg-black" : ""
         } ${
           showType === "week"
@@ -249,9 +250,9 @@ export default function Main() {
   };
 
   return (
-    <Layout title="Hustday Refresh">
+    <Layout title="Hustoday Refresh">
       <div className="text-xs opacity-50 mb-4">
-        现在为静态网页，大部分按钮均不可用，仅供调试
+        现在为静态网页，部分按钮不可用，仅供调试
       </div>
       <div className="flex flex-row items-center justify-between">
         <div className="flex flex-col space-y-1">
@@ -280,7 +281,7 @@ export default function Main() {
               desc="管理您的 Hustoday 课表"
               content={
                 <div className="flex flex-col space-y-2">
-                  <h1 className="font-semibold text-lg">我的课表</h1>
+                  <NormalHeading>我的课表</NormalHeading>
 
                   <div className="grid grid-rows-1 grid-cols-2 gap-4">
                     <CourseCard
@@ -297,7 +298,7 @@ export default function Main() {
                     />
                   </div>
 
-                  <h1 className="font-semibold text-lg mt-4">通用</h1>
+                  <NormalHeading className="mt-4">通用</NormalHeading>
                   <div className="flex flex-col space-y-2">
                     <ActionCard title="网安时间" />
                     <ActionCard title="切换令时" />
@@ -336,14 +337,15 @@ export default function Main() {
         </div>
       </div>
 
-      <div className="sticky top-4 mt-4 rounded-3xl px-6 py-4 -translate-x-4 w-[calc(100%+2rem)] bg-neutral-100/50 dark:bg-neutral-900/50 backdrop-blur-lg z-10">
+      <div className="sticky top-4 mt-4 rounded-3xl px-4 py-3 -translate-x-4 w-[calc(100%+2rem)] bg-neutral-100/50 dark:bg-neutral-900/50 backdrop-blur-lg z-10">
         <div
           ref={topScrollRef}
           className={`text-sm flex flex-row ${
-            showType === "day" ? "space-x-8" : "space-x-"
+            showType === "day" ? "space-x-8" : "space-x-8"
           } items-center justify-between flex-nowrap overflow-x-scroll`}
+          style={{ scrollbarWidth: "none" }}
         >
-          <div>
+          <div className="">
             <h1
               className={`font-semibold ${showType === "day" ? "w-8" : "w-10"}`}
             >
@@ -368,7 +370,11 @@ export default function Main() {
         </div>
       </div>
 
-      <div className="mt-12 flex flex-row justify-between space-x-8">
+      <div
+        className={`mt-12 flex flex-row justify-between space-x-8  ${
+          showType === "day" ? "px-4" : "pl-4 sm:px-4"
+        } -translate-x-4 w-[calc(100%+2rem)]`}
+      >
         <div className="flex flex-col space-y-0">
           {timeTable.map((time, index) => {
             const simplifiedTimeData = time.split("~");
@@ -376,13 +382,13 @@ export default function Main() {
               <div
                 key={index}
                 className={`relative flex justify-center items-center ${
-                  showType === "day" ? "w-12" : "w-6"
+                  showType === "day" ? "w-12" : "w-10"
                 } h-25 transition-all duration-500`}
               >
                 <h1 className="font-semibold text-5xl opacity-20 z-0 w-12">
                   {index + 1}
                 </h1>
-                <div className="absolute w-12 flex justify-center items-center">
+                <div className="absolute w-8 flex justify-center items-center">
                   <h1 className="font-medium text-xs text-neutral-600 dark:text-neutral-400">
                     {showType === "day" ? (
                       time
@@ -417,7 +423,7 @@ export default function Main() {
             className="flex flex-row space-x-2 flex-nowrap overflow-x-scroll"
           >
             {courseList.map((course, index) => (
-              <div className="flex flex-col space-y-4 flex-1" key={index}>
+              <div className="flex flex-col space-y-4 w-20" key={index}>
                 {course?.map((course, index) => (
                   <CourseCard
                     key={index}

@@ -1,4 +1,5 @@
 import Layout from "@/components/Layout";
+import { Heading, SubHeading } from "@/components/ui/Typography";
 
 export default function Hot() {
   const HotCard = ({ children }) => {
@@ -14,10 +15,8 @@ export default function Hot() {
   const referenceStyle = "opacity-50 font-semibold";
   return (
     <Layout title="热点">
-      <h1 className="font-semibold text-3xl mt-12">热点</h1>
-      <h1 className="mt-2 font-semibold text-2xl opacity-50">
-        永不失去对华中大热点的访问权限
-      </h1>
+      <Heading className="mt-12">热点</Heading>
+      <SubHeading className="">永不失去对华中大热点的访问权限</SubHeading>
 
       <div className="mt-8 flex flex-col space-y-4 -translate-x-4 w-[calc(100%+2rem)]">
         <HotCard>
