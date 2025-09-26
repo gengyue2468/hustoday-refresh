@@ -3,7 +3,7 @@ import Layout from "@/components/Layout";
 export default function Hot() {
   const HotCard = ({ children }) => {
     return (
-      <div className="rounded-3xl px-6 py-4 bg-neutral-100 dark:bg-neutral-900 text-xl">
+      <div className="rounded-3xl px-6 py-4 bg-neutral-100 dark:bg-neutral-900 text-lg">
         {children}
       </div>
     );
@@ -14,8 +14,8 @@ export default function Hot() {
   const referenceStyle = "opacity-50 font-semibold";
   return (
     <Layout title="热点">
-      <h1 className="font-semibold text-4xl mt-12">热点</h1>
-      <h1 className="mt-2 font-semibold text-3xl opacity-50">
+      <h1 className="font-semibold text-3xl mt-12">热点</h1>
+      <h1 className="mt-2 font-semibold text-2xl opacity-50">
         永不失去对华中大热点的访问权限
       </h1>
 

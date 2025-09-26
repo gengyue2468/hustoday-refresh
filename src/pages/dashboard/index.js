@@ -3,13 +3,13 @@ import { BadgeCheckIcon } from "lucide-react";
 import ActionCard from "@/components/ui/ActionCard";
 
 export default function Dashboard() {
-  const headingStyle = "font-semibold text-xl ml-4";
+  const headingStyle = "font-semibold text-lg ml-4";
   return (
     <Layout title="我的">
       <img src="/logo.webp" className="rounded-full size-8" />
       <div className="mt-4">
-        <h1 className="font-semibold text-4xl">BriGriff,</h1>
-        <h1 className="mt-2 font-semibold text-3xl opacity-50">
+        <h1 className="font-semibold text-3xl">BriGriff,</h1>
+        <h1 className="mt-2 font-semibold text-2xl opacity-50">
           您今天看起来很聪明!
         </h1>
 

@@ -104,7 +104,7 @@ export default function Navbar() {
           })}
         </div>
         <div className={`p-2 ${glassStyle}`}>
-          <NavButton className="px-2!">
+          <NavButton className="p-2!">
             <SearchIcon size={iconSize} />
           </NavButton>
         </div>

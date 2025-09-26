@@ -81,7 +81,7 @@ export default function Elective() {
         className="rounded-3xl px-6 py-4 bg-neutral-100 dark:bg-neutral-900 flex flex-col space-y-2 justify-center items-center"
       >
         <div>{icon}</div>
-        <h1 className="font-semibold text-xl opacity-50">{name}</h1>
+        <h1 className="font-semibold text-lg opacity-50">{name}</h1>
       </div>
     );
   };
@@ -99,14 +99,14 @@ export default function Elective() {
         {...props}
         className="rounded-3xl px-6 py-4 bg-neutral-100 dark:bg-neutral-900"
       >
-        <h1 className="font-semibold text-xl">{name}</h1>
-        <h1 className="font-semibold text-xl opacity-50">{teacher}等</h1>
+        <h1 className="font-semibold text-lg">{name}</h1>
+        <h1 className="font-semibold text-lg opacity-50">{teacher}等</h1>
 
         <div className="my-8">
-          <h1 className="font-semibold text-xl opacity-50">
+          <h1 className="font-semibold text-lg opacity-50">
             课程类别：{category}
           </h1>
-          <h1 className="font-semibold text-xl opacity-50">
+          <h1 className="font-semibold text-lg opacity-50">
             {commentCount} 条评论，{searchCount} 人搜索过
           </h1>
         </div>
@@ -119,11 +119,11 @@ export default function Elective() {
     );
   };
 
-  const headingStyle = "font-semibold text-xl ml-4";
+  const headingStyle = "font-semibold text-lg ml-4";
   return (
     <Layout title="爱选修">
-      <h1 className="font-semibold text-4xl mt-12">爱选修</h1>
-      <h1 className="mt-2 font-semibold text-3xl opacity-50">选课不发愁~</h1>
+      <h1 className="font-semibold text-3xl mt-12">爱选修</h1>
+      <h1 className="mt-2 font-semibold text-2xl opacity-50">选课不发愁~</h1>
 
       <div className="mt-8 -translate-x-4 w-[calc(100%+2rem)]">
         <h1 className={headingStyle}>按类别浏览</h1>
